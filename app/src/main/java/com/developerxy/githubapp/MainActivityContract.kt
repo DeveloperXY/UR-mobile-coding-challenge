@@ -10,5 +10,6 @@ interface MainActivityContract {
 
     interface Presenter {
         fun start()
+        fun dispose()
     }
 }
