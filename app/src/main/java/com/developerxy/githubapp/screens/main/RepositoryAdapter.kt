@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.single_repository_layout.view.*
 /**
  * Created by Mohammed Aouf ZOUAG on 4/26/2019.
  */
-class RepositoryAdapter(@NonNull repositories: MutableList<Repository>) :
+class RepositoryAdapter(@NonNull repositories: MutableList<Repository>, var mRecyclerView: RecyclerView) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var mRespositoryItems = repositories.map { RepositoryItem(it) }.toMutableList()
@@ -61,18 +61,24 @@ class RepositoryAdapter(@NonNull repositories: MutableList<Repository>) :
 
     fun addProgressItem() {
         mRespositoryItems.add(RepositoryItem(isProgressIndicator = true))
-        notifyItemInserted(mRespositoryItems.size - 1)
+        mRecyclerView.post {
+            notifyItemInserted(mRespositoryItems.size - 1)
+        }
     }
 
     fun removeProgressItem() {
         val indexOfLast = mRespositoryItems.size - 1
         mRespositoryItems.removeAt(indexOfLast)
-        notifyItemRemoved(indexOfLast)
+        mRecyclerView.post {
+            notifyItemRemoved(indexOfLast)
+        }
     }
 
     fun append(repositories: List<Repository>) {
         mRespositoryItems.addAll(repositories.map { RepositoryItem(it) })
-        notifyDataSetChanged()
+        mRecyclerView.post {
+            notifyDataSetChanged()
+        }
     }
 
     inner class RepositoryViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {

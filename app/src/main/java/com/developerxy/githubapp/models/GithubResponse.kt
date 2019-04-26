@@ -17,4 +17,10 @@ data class Repository(
     var owner: RepositoryOwner
 )
 
-data class GithubResponse(@SerializedName("items") var repositories: List<Repository>)
+data class GithubResponse(
+    @SerializedName("items") var repositories: List<Repository>?
+)
+
+data class GithubErrorResponse(
+    val message: String?
+)

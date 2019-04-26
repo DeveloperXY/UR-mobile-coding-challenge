@@ -3,6 +3,7 @@ package com.developerxy.githubapp.network
 import com.developerxy.githubapp.models.GithubResponse
 import com.developerxy.githubapp.utils.toFormattedString
 import io.reactivex.Observable
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.*
@@ -18,5 +19,5 @@ interface GithubClient {
         @Query("order") order: String = "desc",
         @Query("per_page") perPage: Int = 30,
         @Query("page") page: Int = 1
-    ): Observable<GithubResponse>
+    ): Observable<Response<GithubResponse>>
 }

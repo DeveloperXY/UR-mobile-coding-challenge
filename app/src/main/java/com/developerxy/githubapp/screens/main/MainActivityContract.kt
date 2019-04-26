@@ -12,6 +12,10 @@ interface MainActivityContract {
         fun showToast(message: String)
         fun hideProgressBar()
         fun appendRepos(repositories: List<Repository>)
+        fun showSnackBar(message: String)
+        fun removeScrollListener()
+        fun onQuotaAbused(message: String?)
+        fun hideInfiniteLoadingIndicator()
     }
 
     interface Presenter {
