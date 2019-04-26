@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="16dp">
+
+    <TextView
+            android:id="@+id/tvRepoName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Tensorflow"/>
+
+    <TextView
+            android:id="@+id/tvRepoDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@android:color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRepoName"
+            tools:text="Computation using data flow graphs for scalable machine learning"/>
+
+    <ImageView
+            android:id="@+id/ownerImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRepoDescription"/>
+
+    <TextView
+            android:id="@+id/tvOwnerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/ownerImage"
+            app:layout_constraintLeft_toRightOf="@id/ownerImage"
+            app:layout_constraintRight_toLeftOf="@id/star_icon"
+            app:layout_constraintTop_toTopOf="@id/ownerImage"
+            tools:text="Mohammed Aouf Zouag"/>
+
+
+    <ImageView
+            android:id="@+id/star_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_star"
+            app:layout_constraintBottom_toBottomOf="@id/ownerImage"
+            app:layout_constraintRight_toLeftOf="@id/tvStarsCount"
+            app:layout_constraintTop_toTopOf="@id/ownerImage"/>
+
+    <TextView
+            android:id="@+id/tvStarsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/ownerImage"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ownerImage"
+            tools:text="5000"/>
+
+</android.support.constraint.ConstraintLayout>
