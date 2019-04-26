@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.single_repository_layout.view.*
 /**
  * Created by Mohammed Aouf ZOUAG on 4/26/2019.
  */
-class RepositoryAdapter(var repositories: List<Repository>) : RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder>() {
+class RepositoryAdapter(var repositories: MutableList<Repository>) : RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val rootView = LayoutInflater.from(parent.context).inflate(R.layout.single_repository_layout, parent, false)
         return RepositoryViewHolder(rootView)
@@ -30,7 +30,8 @@ class RepositoryAdapter(var repositories: List<Repository>) : RecyclerView.Adapt
     }
 
     fun refresh(repositories: List<Repository>) {
-        this.repositories = repositories
+        this.repositories.clear()
+        this.repositories.addAll(repositories)
         notifyDataSetChanged()
     }
 
@@ -47,10 +48,13 @@ class RepositoryAdapter(var repositories: List<Repository>) : RecyclerView.Adapt
             tvOwnerName.text = repository.owner.name
             tvStarsCount.text = "${repository.starsCount}"
 
-            Glide.with(itemView.context)
-                .load(repository.owner.image)
-                .apply(RequestOptions.bitmapTransform(CropCircleTransformation()))
-                .into(ownerImage)
+            val image = repository.owner.image
+            if (image.isNotEmpty()) {
+                Glide.with(itemView.context)
+                    .load(image)
+                    .apply(RequestOptions.bitmapTransform(CropCircleTransformation()))
+                    .into(ownerImage)
+            }
         }
     }
 }

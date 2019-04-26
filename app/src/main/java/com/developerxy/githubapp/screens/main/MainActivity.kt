@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.developerxy.githubapp.R
 import com.developerxy.githubapp.models.Repository
@@ -22,13 +24,20 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
 
     override fun setupRecyclerView() {
-        mRepositoryAdapter = RepositoryAdapter(listOf())
+        mRepositoryAdapter = RepositoryAdapter(mutableListOf())
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.adapter = mRepositoryAdapter
     }
 
     override fun showRepos(repositories: List<Repository>) {
-        mRepositoryAdapter.refresh(repositories)
+        val controller = AnimationUtils.loadLayoutAnimation(mRecyclerView.context, R.anim.layout_animation_fall_down)
+        mRecyclerView.apply {
+            layoutAnimation = controller
+            mRepositoryAdapter.refresh(repositories)
+            post {
+                scheduleLayoutAnimation()
+            }
+        }
     }
 
     override fun showToast(message: String) {
@@ -36,6 +45,6 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
     }
 
     override fun hideProgressBar() {
-        mProgressBar.visibility = GONE
+        mProgressBar.visibility = INVISIBLE
     }
 }
