@@ -12,7 +12,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme" tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".screens.main.MainActivity"
-        android:label="Trending">
+                  android:configChanges="orientation|screenSize"
+                  android:label="Trending repositories">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
