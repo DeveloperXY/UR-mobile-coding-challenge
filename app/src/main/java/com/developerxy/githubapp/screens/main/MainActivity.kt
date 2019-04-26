@@ -3,7 +3,7 @@ package com.developerxy.githubapp.screens.main
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View.GONE
+import android.support.v7.widget.RecyclerView
 import android.view.View.INVISIBLE
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -15,6 +15,10 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
 
     private lateinit var mPresenter: MainActivityContract.Presenter
     private lateinit var mRepositoryAdapter: RepositoryAdapter
+    private var visibleThreshold = 5
+    private var lastVisibleItem = -1
+    private var totalItemCount = -1
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +31,22 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
         mRepositoryAdapter = RepositoryAdapter(mutableListOf())
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.adapter = mRepositoryAdapter
+
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+                totalItemCount = layoutManager.itemCount
+                lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                    mRepositoryAdapter.addProgressItem()
+                    mPresenter.loadNextPage()
+                    isLoading = true
+                }
+            }
+        })
     }
 
     override fun showRepos(repositories: List<Repository>) {
@@ -38,6 +58,12 @@ class MainActivity : AppCompatActivity(), MainActivityContract.View {
                 scheduleLayoutAnimation()
             }
         }
+    }
+
+    override fun appendRepos(repositories: List<Repository>) {
+        mRepositoryAdapter.removeProgressItem()
+        mRepositoryAdapter.append(repositories)
+        isLoading = false
     }
 
     override fun showToast(message: String) {

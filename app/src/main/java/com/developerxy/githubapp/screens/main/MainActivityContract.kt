@@ -11,10 +11,12 @@ interface MainActivityContract {
         fun showRepos(repositories: List<Repository>)
         fun showToast(message: String)
         fun hideProgressBar()
+        fun appendRepos(repositories: List<Repository>)
     }
 
     interface Presenter {
         fun start()
         fun dispose()
+        fun loadNextPage()
     }
 }

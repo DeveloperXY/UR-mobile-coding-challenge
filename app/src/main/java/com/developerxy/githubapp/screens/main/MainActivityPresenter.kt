@@ -1,5 +1,6 @@
 package com.developerxy.githubapp.screens.main
 
+import com.developerxy.githubapp.models.Repository
 import com.developerxy.githubapp.network.GithubClient
 import com.developerxy.githubapp.network.ServiceGenerator
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,14 +17,22 @@ class MainActivityPresenter(
 ) : MainActivityContract.Presenter {
 
     private var mCompositeDisposable = CompositeDisposable()
+    private var mCurrentPage = 1
+    private val mRepositories = mutableListOf<Repository>()
 
     override fun start() {
         mView.setupRecyclerView()
-        loadRepos()
+        loadPage(mCurrentPage)
     }
 
-    private fun loadRepos() {
-        val disposable = mGithubClient.getRepos()
+    override fun loadNextPage() {
+        mCurrentPage++
+        loadPage(mCurrentPage)
+    }
+
+    private fun loadPage(page: Int) {
+        mCurrentPage = page
+        val disposable = mGithubClient.getRepos(page = page)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
@@ -31,7 +40,11 @@ class MainActivityPresenter(
                     mView.showToast("Cannot fetch repositories right now.")
                 },
                 onNext = {
-                    mView.showRepos(it.repositories)
+                    mRepositories.addAll(it.repositories)
+                    if (page == 1)
+                        mView.showRepos(mRepositories)
+                    else
+                        mView.appendRepos(it.repositories)
                 },
                 onComplete = mView::hideProgressBar
             )

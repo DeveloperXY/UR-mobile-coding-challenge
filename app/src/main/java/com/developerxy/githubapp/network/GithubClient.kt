@@ -15,6 +15,8 @@ interface GithubClient {
     fun getRepos(
         @Query("q") q: String = Date().toFormattedString(),
         @Query("sort") sort: String = "stars",
-        @Query("order") order: String = "desc"
+        @Query("order") order: String = "desc",
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
     ): Observable<GithubResponse>
 }
