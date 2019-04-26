@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.developerxy.githubapp.R
 import com.developerxy.githubapp.models.Repository
+import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.single_repository_layout.view.*
 
 /**
@@ -47,6 +49,7 @@ class RepositoryAdapter(var repositories: List<Repository>) : RecyclerView.Adapt
 
             Glide.with(itemView.context)
                 .load(repository.owner.image)
+                .apply(RequestOptions.bitmapTransform(CropCircleTransformation()))
                 .into(ownerImage)
         }
     }
